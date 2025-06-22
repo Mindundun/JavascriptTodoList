@@ -36,10 +36,12 @@ function addTask() {
 function render() {
   //1. 내가 선택한 탭에 따라서
   let list=[]
-  if(mode=="all"){
+  if (mode === "all") {
     list = taskList;
-  }else if(mode=="ongoing" || mode=="done"){
-    list = filterList;
+  } else if (mode === "ongoing") {
+    list = taskList.filter(task => !task.isComplete);
+  } else if (mode === "done") {
+    list = taskList.filter(task => task.isComplete);
   }
   //2. 리스트를 달리 보여준다
   //all은 taskList
@@ -92,39 +94,13 @@ function deleteTask(id){
   render();
 }
 
-function filter(event){
+function filter(event) {
   mode = event.target.id;
-  filterList = [];
-  if(mode == "all"){
-    //전체 리스트를 보여준다
-    render();
-    //underLine
-    underLine.style.left = event.currentTarget.offsetLeft + "px";
-    underLine.style.width = event.currentTarget.offsetWidth + "px";
-    underLine.style.top = event.currentTarget.offsetTop + event.currentTarget.offsetHeight-4 +"px";
-  }else if(mode == "ongoing"){
-    //진행중인 아이템을 보여준다.
-    //task.isComplete == false
-    for(let i = 0; i<taskList.length;i++){
-      if(taskList[i].isComplete==false){
-        filterList.push(taskList[i]);
-      }
-    }
-    render(filterList);
-    underLine.style.left = event.currentTarget.offsetLeft + "px";
-    underLine.style.width = event.currentTarget.offsetWidth + "px";
-    underLine.style.top = event.currentTarget.offsetTop + event.currentTarget.offsetHeight-4 +"px";
-  }else if(mode == "done"){
-    //끝나는 케이스
-    //ask.isComplete == true
-    for(let i = 0; i<taskList.length;i++){
-      if(taskList[i].isComplete==true){
-        filterList.push(taskList[i]);
-      }
-    }
-    render(filterList);
-    underLine.style.left = event.currentTarget.offsetLeft + "px";
-    underLine.style.width = event.currentTarget.offsetWidth + "px";
-    underLine.style.top = event.currentTarget.offsetTop + event.currentTarget.offsetHeight-4 +"px";
-  }
+
+  render(); // render 안에서 필터링 다 함
+
+  underLine.style.left = event.currentTarget.offsetLeft + "px";
+  underLine.style.width = event.currentTarget.offsetWidth + "px";
+  underLine.style.top =
+    event.currentTarget.offsetTop + event.currentTarget.offsetHeight - 4 + "px";
 }
