@@ -37,3 +37,6 @@ body{
 .taskDone{
     text-decoration: line-through;
 }
+.taskTabs div{
+    cursor: pointer;
+}
